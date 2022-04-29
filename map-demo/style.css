@@ -1,20 +1,16 @@
 h1 {
-  font-family: 'Fira Sans', sans-serif;
-  text-align: center;
+  font-family: 'Spectral', serif;
+  font-weight: 800;
 }
 
 h3 {
-  font-family: 'Fira Sans', sans-serif;
-  text-align: center;
-}
-
-h4 {
-  font-family: 'Fira Sans', sans-serif;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
 }
 
 body {
-  font-family: 'Fira Sans', sans-serif;
-  font-size: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
 }
 
 .state-border {
@@ -34,8 +30,17 @@ body {
   opacity: 1;
 }
 
+.point.hidden {
+  display: none;
+}
+
 .bar {
   fill:#c9184a;
+}
+
+#container {
+  text-align: center;
+  padding: 20px 20px 20px 20px;
 }
 
 #tooltip {
@@ -50,7 +55,7 @@ body {
 }
 
 #tooltip p {
-  font-family: 'Fira Sans', sans-serif;
+  font-family: 'IBM Plex Mono', monospace;
   margin: 0;
   font-size: 12px;
 }
@@ -62,5 +67,4 @@ body {
 #slider {
   margin: 0 auto;
   padding: 0px;
-  display: block;
 }

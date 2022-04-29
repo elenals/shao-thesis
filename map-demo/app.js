@@ -5,14 +5,10 @@ const wMap = 840
 const hMap = 640
 const mMap = ({top: 20, right: 20, bottom: 20, left: 20})
 
-const wChart = 840
-const hChart = 150
-const mChart = ({top: 20, right: 20, bottom: 20, left: 20})
-
 /* 
 CREATING EMPTY SVG ROOT ELEMENT ON PAGE LOAD 
 */
-const svg = d3.select("body")
+const svg = d3.select("#container")
   .append("svg")
   .attr("width", wMap)
   .attr("height", hMap);
@@ -39,96 +35,26 @@ function makeMap(data) {
     .join("path")
     .attr("d", path)
     .attr("class", "state-border");
-
 }
 
-/* 
-PLOTTING THE POINTS
-*/
 /*
-function plotPoints(data) {
-  let tooltip = d3.select("body")
-    .append("div")
-    .attr("id", "tooltip")
-    .classed("hidden", true)
-  
-  let mouseover = function(event, d) {
-    d3.select("#tooltip")
-      .text(d.county_state)
-      .style("left", (event.pageX - 20) + "px")
-      .style("top", (event.pageY + 20) + "px")
-      .style("opacity", 1);
-
-    d3.select("#tooltip")
-      .classed("hidden", false);
-  }
-
-  let mouseout = function(event, d) {
-    d3.select("#tooltip")
-      .style("opacity", 0)
-  }
-
-  svg.selectAll(".point")
-    .data(data)
-    .join("circle")
-    .attr("cx", (d) => projection([d.longitude, d.latitude])[0])
-    .attr("cy", (d) => projection([d.longitude, d.latitude])[1])
-    .attr("r", 3)
-    .attr("class", "point")
-    .on("mouseover", mouseover)
-    .on("mouseout",  mouseout);
-}*/
-
-/*
-MAKING THE BAR CHART
+PLOT POINTS & TOOLTIP
 */
-function makeBars(data) {
-
-  console.log(data)
-
-  const dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
-    11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
-  
-  let x = d3.scaleBand()
-    .range([0, wChart])
-    .domain(d3.range(dataset.length));
-
-  let y = d3.scaleLinear()
-    .range([0, hChart])
-    .domain([0, d3.max(dataset)]);
-
-  const barSvg = d3.select("body")
-    .append("svg")
-    .attr("width", wChart)
-    .attr("height", hChart);
-  
-  barSvg.selectAll(".bar")
-    .data(dataset)
-    .join("rect")
-    .attr("x", (d, i) => x(i))
-    .attr("y", (d, i) => hChart - y(d))
-    .attr("width", x.bandwidth())
-    .attr("height", (d) => y(d))
-    .attr("class", "bar");
-}
-
-
 function plotPoints(data) {
   let selection = document.querySelector("#slider").value;
-  console.log(selection)
-
-  d3.select("h3")
+  d3.select("#year")
     .text(selection);
 
-  let tooltip = d3.select("body")
-    .append("div")
-    .attr("id", "tooltip")
-    .classed("hidden", true)
-  
+  let filtered = data.filter((d) => d.retirement_year == selection);
   let size = d3.scaleLinear()
     .domain(d3.extent(data, (d) => d.nameplate_capacity_mw))
     .range([3, 15]);
   
+  let tooltip = d3.select("body")
+  .append("div")
+  .attr("id", "tooltip")
+  .classed("hidden", true)
+
   let mouseover = function(event, d) {
     d3.select("#tooltip")
       .html(
@@ -159,22 +85,18 @@ function plotPoints(data) {
       .style("opacity", 0)
   }
 
-  svg.selectAll(".point")
-    .data(data)
+  points = svg.selectAll(".point")
+    .data(filtered)
     .join("circle")
     .attr("cx", (d) => projection([d.longitude, d.latitude])[0])
     .attr("cy", (d) => projection([d.longitude, d.latitude])[1])
-    .attr("r", function(d) {
-      if (selection === d.retirement_year) {
-        return size(d.nameplate_capacity_mw)
-      } else {
-        return 0
-      }
-    })
+    .attr("r", (d) => size(d.nameplate_capacity_mw))
     .attr("class", "point")
     .on("mouseover", mouseover)
-    .on("mouseout",  mouseout);
+    .on("mouseout", mouseout)
 }
+
+
 /* 
 LOADING UNITED STATES TOPOJSON DATA 
 https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json 
@@ -193,10 +115,17 @@ d3.json("data/counties-10m.json").then(
           if (error) {
             console.log(log);
           } else {
-            //console.log(data)
+
+            // initial slider text
+            d3.select("#year")
+              .text("2002");
+            
+            // plotting points based on the input from the slider
             d3.select("#slider")
-              .on("input", (d) => plotPoints(data));
-            //makeBars(data);
+              .on("input", function() {
+                plotPoints(data)
+            });
+
           }
         }
       )

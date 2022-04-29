@@ -12,26 +12,39 @@
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
 
 	<!-- importing Google Fonts -->
+	<!-- CSS rules to specify the families:
+	font-family: 'IBM Plex Mono', monospace;
+	font-family: 'Space Grotesk', sans-serif;
+	font-family: 'Spectral', serif;
+	-->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,700;0,900;1,300;1,600;1,900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Space+Grotesk:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
+	
+	<!-- D3 & TopoJSON -->
+	<script src="https://d3js.org/d3.v7.min.js"></script>
+	<script src="http://d3js.org/topojson.v3.min.js"></script>
 
 </head>
 
 <body>
-	<h1>D3 Tinkering</h1>
 
-	<!-- D3 -->
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-	<!-- TopoJSON -->
-	<script src="http://d3js.org/topojson.v3.min.js"></script>
+	<div id="container">
+		<h1>
+			D3 Bubble Map Time Series
+		</h1>
+		<p>
+			U.S. power plant retirements (and planned retirements) from 2002 until 2058.
+		</p>
+		<h3 id="year">
+		</h3>
+		<div>
+			<input id="slider" type="range" min="2002" max="2058" step="1" value="2002"/>
+		</div>
+	</div>
+
 	<!-- external javascript -->
 	<script src="app.js"></script>
-
-	
-	<h3></h3>
-	<input id="slider" type="range" min="2002" max="2058" step="1" value="2002"/>
-
 </body>
 
 
