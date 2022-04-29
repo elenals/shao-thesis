@@ -16,8 +16,8 @@ const svg = d3.select("#container")
 /* 
 DEFINE MAP PROJECTION & PATH GENERATOR
 */
-const projection = d3.geoAlbers()
-  .translate([wMap/2, hMap/2])
+const projection = d3.geoAlbersUsa()
+  .translate([wMap/2, hMap/2]);
   //.fitExtent([[m.top, m.left], [w - m.bottom, h - m.right]], states);
 
 const path = d3.geoPath()
@@ -116,11 +116,10 @@ d3.json("data/counties-10m.json").then(
             console.log(log);
           } else {
 
-            // initial slider text
-            d3.select("#year")
-              .text("2002");
-            
-            // plotting points based on the input from the slider
+            // plot first year's data on page load
+            plotPoints(data)
+
+            // plotting new points based on the input from the slider
             d3.select("#slider")
               .on("input", function() {
                 plotPoints(data)
