@@ -53,7 +53,7 @@ function makeMap(data, projection) {
 const playButton = d3.select("#play-button");
 
 const start = new Date("01/09/22");
-const end = new Date("04/20/22");
+const end = new Date("04/19/22");
 const numDays = Math.round((end - start) / (1000 * 60 * 60 * 24)); // denominator: # of miliseconds in a day
 const formatTime = d3.timeFormat("%m/%d/%y");
 const parseTime = d3.timeFormat("%B %e, %A");
@@ -128,29 +128,10 @@ d3.json("ukraine-regions.json").then((data, error) => {
 		// calls function to make the base map
 		makeMap(data, projection);
 
-		d3.json("ukraine-witness-long.json").then((data) => {
+		d3.json("ukraine-data.json").then((data) => {
 			//console.log("ukraine witness data", data);
 
 			let pointer = 1;
-
-			/* THIS CODE STARTS THE ANIMATION ON PAGE LOAD*/
-			/* NOT COMPLETE YET */
-			/*
-			timer = setInterval(function () {
-				inverted = xScale.invert(pointer);
-				update(data, inverted);
-				pointer++;
-			}, 100);
-			console.log("timer", timer);
-
-			playButton.on("click", function () {
-				const button = d3.select("this");
-				if (button.text() == "Pause") {
-					clearInterval(timer);
-					button.text("Play");
-				}
-			});
-			*/
 
 			/* 
 			THIS CODE IS IF YOU ONLY WANT TO START THE ANIMATION ON BUTTON CLICK 
